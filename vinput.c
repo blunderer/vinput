@@ -24,7 +24,7 @@ static dev_t vinput_dev;
 static struct spinlock vinput_lock;
 static struct class vinput_class;
 
-struct vinput_device *vinput_get_device_by_type(const char *type)
+static struct vinput_device *vinput_get_device_by_type(const char *type)
 {
 	int found = 0;
 	struct vinput_device *vinput;
@@ -45,7 +45,7 @@ struct vinput_device *vinput_get_device_by_type(const char *type)
 	return ERR_PTR(-ENODEV);
 }
 
-struct vinput *vinput_get_vdevice_by_id(long id)
+static struct vinput *vinput_get_vdevice_by_id(long id)
 {
 	struct vinput *vinput = NULL;
 	struct list_head *curr;
