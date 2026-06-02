@@ -7,6 +7,7 @@
 #include <linux/slab.h>
 #include <linux/types.h>
 #include <linux/cdev.h>
+#include <linux/version.h>
 #include <asm/uaccess.h>
 
 #include "vinput.h"
@@ -233,7 +234,13 @@ static int vinput_register_vdevice(struct vinput *vinput)
 	return err;
 }
 
-static ssize_t export_store(struct class *class, struct class_attribute *attr,
+#if LINUX_VERSION_CODE > KERNEL_VERSION(6, 4, 0)
+#define OPT_CONST_6_4 const
+#else
+#define OPT_CONST_6_4
+#endif
+
+static ssize_t export_store(OPT_CONST_6_4 struct class *class, OPT_CONST_6_4 struct class_attribute *attr,
 			    const char *buf, size_t len)
 {
 	int err;
@@ -272,7 +279,7 @@ fail:
 	return err;
 }
 
-static ssize_t unexport_store(struct class *class, struct class_attribute *attr,
+static ssize_t unexport_store(OPT_CONST_6_4 struct class *class, OPT_CONST_6_4 struct class_attribute *attr,
 			      const char *buf, size_t len)
 {
 	int err;
