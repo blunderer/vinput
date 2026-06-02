@@ -390,7 +390,7 @@ static int __init vinput_init(void)
 
 	return 0;
 failed_class:
-	class_unregister(&vinput_class);
+	unregister_chrdev(chrdev, DRIVER_NAME);
 failed_alloc:
 	return err;
 }
