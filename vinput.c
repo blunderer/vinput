@@ -320,7 +320,9 @@ ATTRIBUTE_GROUPS(vinput_class);
 
 static struct class vinput_class = {
 	.name = "vinput",
+#if LINUX_VERSION_CODE < KERNEL_VERSION(6, 4, 0)
 	.owner = THIS_MODULE,
+#endif
 	.class_groups = vinput_class_groups,
 };
 
