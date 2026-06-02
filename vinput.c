@@ -350,7 +350,7 @@ void vinput_unregister(struct vinput_device *dev)
 	list_del(&dev->list);
 	spin_unlock(&vinput_lock);
 
-	/* unregister all devices of thhis type */
+	/* unregister all devices of this type */
 	list_for_each_safe(curr, next, &vinput_vdevices) {
 		struct vinput *vinput = list_entry(curr, struct vinput, list);
 		if (vinput && vinput->type == dev) {
