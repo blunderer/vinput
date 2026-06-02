@@ -14,6 +14,8 @@
 static int vinput_vmouse_init(struct vinput *vinput)
 {
 	int *buttons = kmalloc(sizeof(int), GFP_KERNEL);
+	if (!buttons)
+		return -ENOMEM;
 
 	__set_bit(EV_REL, vinput->input->evbit);
 	__set_bit(REL_X, vinput->input->relbit);

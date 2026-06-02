@@ -219,8 +219,11 @@ static int vinput_vts_mt_init(struct vinput *vinput)
 	struct device_attribute *attr = vts_mt_attrs;
 
 	drvdata = kmalloc(sizeof(struct vts_mt_data), GFP_KERNEL);
+	if (!drvdata)
+		return -ENOMEM;
+
 	vinput->priv_data = drvdata;
-	
+
 	drvdata->registered = 0;
 	drvdata->init_flag = 0;
 	drvdata->type = TYPE_NONE;
@@ -233,7 +236,7 @@ static int vinput_vts_mt_init(struct vinput *vinput)
 	__set_bit(EV_KEY, vinput->input->evbit);
 
 	__set_bit(BTN_TOUCH, vinput->input->keybit);
-	
+
 	while (attr->attr.name) {
 		dev_dbg(&vinput->dev, "Creating new attributes: %s\n", attr->attr.name);
 		device_create_file(&vinput->dev, attr++);
