@@ -55,10 +55,9 @@ struct vts_mt_data {
 	struct mtslot *slots;
 };
 
-static void vinput_vts_mt_register_final(struct device *dev)
+static int vinput_vts_mt_register_final(struct device *dev)
 {
 	int i;
-	int err = 0;
 	struct vinput *vinput = dev_to_vinput(dev);
 	struct vts_mt_data *drvdata = (struct vts_mt_data *)vinput->priv_data;
 
@@ -78,14 +77,14 @@ static void vinput_vts_mt_register_final(struct device *dev)
 
 	if (input_register_device(vinput->input)) {
 		dev_err(&vinput->dev, "cannot register vinput input device\n");
-		err = -ENODEV;
+		return -ENODEV;
 	}
 	drvdata->registered = 1;
-	
-	return;
+
+	return 0;
 }
 
-static void vinput_vts_mt_calib_done(struct device *dev, int flag)
+static int vinput_vts_mt_calib_done(struct device *dev, int flag)
 {
 	struct vinput *vinput = dev_to_vinput(dev);
 	struct vts_mt_data *drvdata = (struct vts_mt_data *)vinput->priv_data;
@@ -93,7 +92,9 @@ static void vinput_vts_mt_calib_done(struct device *dev, int flag)
 	drvdata->init_flag |= (1 << flag);
 
 	if ((drvdata->init_flag & VTS_MT_CALIB_DONE) == VTS_MT_CALIB_DONE)
-		vinput_vts_mt_register_final(dev);
+		return vinput_vts_mt_register_final(dev);
+
+	return 0;
 }
 
 static ssize_t type_show(struct device *dev, struct device_attribute *attr, char *buf)
@@ -111,6 +112,7 @@ static ssize_t type_show(struct device *dev, struct device_attribute *attr, char
 
 static ssize_t type_store(struct device *dev, struct device_attribute *attr, const char *buf, size_t size)
 {
+	int err;
 	struct vinput *vinput = dev_to_vinput(dev);
 	struct vts_mt_data *drvdata = (struct vts_mt_data *)vinput->priv_data;
 
@@ -127,7 +129,9 @@ static ssize_t type_store(struct device *dev, struct device_attribute *attr, con
 	else
 		return -EPROTONOSUPPORT;
 
-	vinput_vts_mt_calib_done(dev, calib_type);
+	err = vinput_vts_mt_calib_done(dev, calib_type);
+	if (err < 0)
+		return err;
 
 	return size;
 };
@@ -166,6 +170,7 @@ static ssize_t calib_show(struct device *dev, struct device_attribute *attr, cha
 
 static ssize_t calib_store(struct device *dev, struct device_attribute *attr, const char *buf, size_t size)
 {
+	int err;
 	int val;
 	int flag;
 	int status;
@@ -198,7 +203,9 @@ static ssize_t calib_store(struct device *dev, struct device_attribute *attr, co
 		return -EPROTO;
 	}
 
-	vinput_vts_mt_calib_done(dev, flag);
+	err = vinput_vts_mt_calib_done(dev, flag);
+	if (err < 0)
+		return err;
 
 	return size;
 };
