@@ -367,14 +367,18 @@ EXPORT_SYMBOL(vinput_unregister);
 static int __init vinput_init(void)
 {
 	int err = 0;
+	int chrdev;
 
 	pr_info("vinput: Loading virtual input driver\n");
 
-	vinput_dev = register_chrdev(0, DRIVER_NAME, &vinput_fops);
-	if (vinput_dev < 0) {
+	chrdev = register_chrdev(0, DRIVER_NAME, &vinput_fops);
+	if (chrdev < 0) {
+		err = chrdev;
 		pr_err("vinput: Unable to allocate char dev region\n");
 		goto failed_alloc;
 	}
+
+	vinput_dev = chrdev;
 
 	spin_lock_init(&vinput_lock);
 
