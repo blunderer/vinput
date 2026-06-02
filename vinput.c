@@ -272,7 +272,9 @@ static ssize_t export_store(OPT_CONST_6_4 struct class *class, OPT_CONST_6_4 str
 	return len;
 
 fail_register_vinput:
+	// vinput is freed via the release callback
 	device_unregister(&vinput->dev);
+	return err;
 fail_register:
 	vinput_destroy_vdevice(vinput);
 fail:
