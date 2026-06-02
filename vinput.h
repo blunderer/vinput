@@ -1,3 +1,5 @@
+#ifndef VINPUT_H
+#define VINPUT_H
 
 #include <linux/module.h>
 #include <linux/kernel.h>
@@ -45,3 +47,5 @@ struct vinput_device {
 
 int vinput_register(struct vinput_device *dev);
 void vinput_unregister(struct vinput_device *dev);
+
+#endif
