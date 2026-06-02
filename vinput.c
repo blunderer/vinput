@@ -8,7 +8,7 @@
 #include <linux/types.h>
 #include <linux/cdev.h>
 #include <linux/version.h>
-#include <asm/uaccess.h>
+#include <linux/uaccess.h>
 
 #include "vinput.h"
 

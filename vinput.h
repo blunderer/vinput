@@ -6,7 +6,7 @@
 #include <linux/spinlock.h>
 #include <linux/slab.h>
 #include <linux/cdev.h>
-#include <asm/uaccess.h>
+#include <linux/uaccess.h>
 
 #define VINPUT_MAX_LEN		128
 #define MAX_VINPUT		32
