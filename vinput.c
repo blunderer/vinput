@@ -14,8 +14,6 @@
 
 #define DRIVER_NAME	"vinput"
 
-#define dev_to_vinput(dev)      container_of(dev, struct vinput, dev)
-
 static DECLARE_BITMAP(vinput_ids, VINPUT_MINORS);
 
 static LIST_HEAD(vinput_devices);
