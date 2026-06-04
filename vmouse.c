@@ -66,11 +66,11 @@ static int vinput_vmouse_send(struct vinput *vinput, char *buff, int len)
 		if (wheel)
 			input_report_rel(vinput->input, REL_WHEEL, wheel);
 
-		if ((*state | buttons) & (0x1 << VBUTTON_LEFT))
+		if ((*state ^ buttons) & (0x1 << VBUTTON_LEFT))
 			input_report_key(vinput->input, BTN_LEFT, 1 & (buttons >> VBUTTON_LEFT));
-		if ((*state | buttons) & (0x1 << VBUTTON_RIGHT))
+		if ((*state ^ buttons) & (0x1 << VBUTTON_RIGHT))
 			input_report_key(vinput->input, BTN_RIGHT, 1 & (buttons >> VBUTTON_RIGHT));
-		if ((*state | buttons) & (0x1 << VBUTTON_MIDDLE))
+		if ((*state ^ buttons) & (0x1 << VBUTTON_MIDDLE))
 			input_report_key(vinput->input, BTN_MIDDLE, 1 & (buttons >> VBUTTON_MIDDLE));
 
 		*state = buttons;
