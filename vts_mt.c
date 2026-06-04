@@ -204,11 +204,11 @@ static ssize_t calib_store(struct device *dev, struct device_attribute *attr, co
 };
 
 static struct device_attribute vts_mt_attrs[] = {
-	__ATTR(type, S_IWUSR | S_IRUGO, type_show, type_store),
-	__ATTR(max_x, S_IWUSR | S_IRUGO, calib_show, calib_store),
-	__ATTR(max_y, S_IWUSR | S_IRUGO, calib_show, calib_store),
-	__ATTR(max_z, S_IWUSR | S_IRUGO, calib_show, calib_store),
-	__ATTR(max_points, S_IWUSR | S_IRUGO, calib_show, calib_store),
+	__ATTR(type, 0644, type_show, type_store),
+	__ATTR(max_x, 0644, calib_show, calib_store),
+	__ATTR(max_y, 0644, calib_show, calib_store),
+	__ATTR(max_z, 0644, calib_show, calib_store),
+	__ATTR(max_points, 0644, calib_show, calib_store),
 	__ATTR_NULL,
 };
 
